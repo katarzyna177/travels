@@ -1,23 +1,15 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class HotelSearch {
+public class HotelSearchTest extends BaseTest{
 
     @Test
-    public void searchHotel() throws InterruptedException {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
-        driver.get("http://www.kurs-selenium.pl/demo/");
+    public void searchHotelTest() throws InterruptedException {
         driver.findElement(By.xpath("//span[text()='Search by Hotel or City Name']")).click();
         driver.findElement(By.xpath("//div[@id='select2-drop']//input")).sendKeys("Dubai");
         //Thread.sleep(3000);
@@ -45,6 +37,26 @@ public class HotelSearch {
         Assert.assertEquals("Oasis Beach Tower", hotelNames.get(1));
         Assert.assertEquals("Rose Rayhaan Rotana", hotelNames.get(2));
         Assert.assertEquals("Hyatt Regency Perth", hotelNames.get(3));
+
+    }
+
+    @Test
+    public void searchHotelWithoutNameTest() {
+        driver.findElement(By.name("checkin")).sendKeys("17/09/2022");
+        driver.findElement(By.name("checkout")).click();
+        driver.findElements(By.xpath("//td[@class='day ' and text()='30']"))
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .ifPresent(WebElement::click);
+        driver.findElement(By.id("travellersInput")).click();
+        driver.findElement(By.id("childPlusBtn")).click();
+        driver.findElement(By.xpath("//button[text()=' Search']")).click();
+
+        WebElement noResultHeading = driver.findElement(By.xpath("//div[@class='itemscontainer']//h2"));
+
+        Assert.assertTrue(noResultHeading.isDisplayed());
+        Assert.assertEquals(noResultHeading.getText(), "No Results Found");
 
     }
 }
