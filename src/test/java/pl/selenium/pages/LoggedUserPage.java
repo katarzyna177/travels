@@ -14,7 +14,7 @@ public class LoggedUserPage {
         PageFactory.initElements(driver, this);
     }
 
-    public String getHeadingText(){
+    public String getHeadingText() {
         return heading.getText();
     }
 }

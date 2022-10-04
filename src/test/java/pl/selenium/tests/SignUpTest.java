@@ -9,6 +9,7 @@ import pl.selenium.pages.LoggedUserPage;
 import pl.selenium.pages.SignUpPage;
 
 import java.util.List;
+
 import static org.testng.Assert.assertTrue;
 
 public class SignUpTest extends BaseTest {
@@ -16,7 +17,7 @@ public class SignUpTest extends BaseTest {
     @Test
     public void signUpTest() {
         String lastName = "Testowa";
-        int randomNumber = (int) (Math.random()*1000);
+        int randomNumber = (int) (Math.random() * 1000);
         String email = "tester" + randomNumber + "@tester.pl";
 
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
@@ -37,30 +38,6 @@ public class SignUpTest extends BaseTest {
         Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Kasia Testowa");
     }
 
-    @Test
-    public void signUpTest2() {
-        int randomNumber = (int) (Math.random()*1000);
-        String email = "tester" + randomNumber + "@tester.pl";
-
-        User user = new User();
-        user.setFirstName("Kasia");
-        user.setLastName("Testowa");
-        user.setPhone("111111111");
-        user.setEmail(email);
-        user.setPassword("Test123");
-
-        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
-        hotelSearchPage.openSignUpForm();
-
-        SignUpPage signUpPage = new SignUpPage(driver);
-        //signUpPage.fillSignUpForm("Kasia", "Testowa", "111111111" , email, "Test123");
-        signUpPage.fillSignUpForm(user);
-
-        LoggedUserPage loggedUserPage = new LoggedUserPage(driver);
-
-        assertTrue(loggedUserPage.getHeadingText().contains(user.getLastName()));
-        Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Kasia Testowa");
-    }
 
     @Test
     public void signUpEmptyFormTest() {
@@ -81,7 +58,7 @@ public class SignUpTest extends BaseTest {
         softAssert.assertTrue(errors.contains("The Last Name field is required."));
         softAssert.assertAll();
     }
-    
+
     @Test
     public void signUpInvalidEmailTest() {
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
