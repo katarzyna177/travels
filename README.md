@@ -1,6 +1,6 @@
 # travels
 
 
-Technology Used:
+Technology Used for Testing:
 - Java
 - Selenium
